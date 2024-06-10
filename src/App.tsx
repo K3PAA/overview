@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { Header } from "./components";
 
 const App = () => {
   useEffect(() => {
@@ -15,9 +16,16 @@ const App = () => {
     getPlayerData();
   }, []);
   return (
-    <div>
-      <h1 className="bg-red-500">Helo world </h1>
-    </div>
+    <main className="relative">
+      <Header />
+      <button className="btn">Button</button>
+
+      <img
+        src="/over_hero_desktop.png"
+        alt=""
+        className="absolute inset-0 z-[-100] brightness-75"
+      />
+    </main>
   );
 };
 
