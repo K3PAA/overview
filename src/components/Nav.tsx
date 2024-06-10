@@ -14,7 +14,7 @@ const Nav = () => {
 
   return (
     <nav>
-      <ul className="flex gap-4">
+      <ul className="mt-4 flex gap-4 sm:mt-0">
         {routes.map((route) => {
           return (
             <li>
@@ -22,7 +22,7 @@ const Nav = () => {
                 {({ isActive }) => {
                   return (
                     <span
-                      className={`${isActive ? "border-b-primary-400 border-b-4 text-slate-600" : "text-slate-300"} text-xl font-semibold uppercase transition-all duration-300 hover:text-slate-600`}
+                      className={`${isActive ? "border-b-4 border-b-primary-400 text-slate-800" : "text-slate-500 hover:border-b-2"} text-xl font-semibold uppercase transition-all duration-300 hover:border-b-primary-400 hover:text-slate-600`}
                     >
                       {route.text}
                     </span>
