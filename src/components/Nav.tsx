@@ -17,8 +17,8 @@ const Nav = () => {
       <ul className="mt-4 flex gap-4 sm:mt-0">
         {routes.map((route) => {
           return (
-            <li>
-              <Link key={route.path} to={route.path}>
+            <li key={route.path}>
+              <Link to={route.path}>
                 {({ isActive }) => {
                   return (
                     <span
