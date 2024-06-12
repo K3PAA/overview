@@ -13,23 +13,29 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as HerosIdImport } from './routes/heros/$id'
 
 // Create Virtual Routes
 
-const HerosLazyImport = createFileRoute('/heros')()
 const IndexLazyImport = createFileRoute('/')()
+const HerosIndexLazyImport = createFileRoute('/heros/')()
 
 // Create/Update Routes
-
-const HerosLazyRoute = HerosLazyImport.update({
-  path: '/heros',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/heros.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const HerosIndexLazyRoute = HerosIndexLazyImport.update({
+  path: '/heros/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/heros/index.lazy').then((d) => d.Route))
+
+const HerosIdRoute = HerosIdImport.update({
+  path: '/heros/$id',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -42,11 +48,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/heros': {
-      id: '/heros'
+    '/heros/$id': {
+      id: '/heros/$id'
+      path: '/heros/$id'
+      fullPath: '/heros/$id'
+      preLoaderRoute: typeof HerosIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/heros/': {
+      id: '/heros/'
       path: '/heros'
       fullPath: '/heros'
-      preLoaderRoute: typeof HerosLazyImport
+      preLoaderRoute: typeof HerosIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -56,7 +69,8 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
-  HerosLazyRoute,
+  HerosIdRoute,
+  HerosIndexLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -68,14 +82,18 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/heros"
+        "/heros/$id",
+        "/heros/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/heros": {
-      "filePath": "heros.lazy.tsx"
+    "/heros/$id": {
+      "filePath": "heros/$id.tsx"
+    },
+    "/heros/": {
+      "filePath": "heros/index.lazy.tsx"
     }
   }
 }

@@ -14,7 +14,13 @@ const SmallCard = ({ hero }: SmallCardProps) => {
         <h3 className="text-2xl text-slate-100">{hero.name}</h3>
         <p className="text-slate-300">{hero.role}</p>
       </div>
-      <Link className="block rounded-md bg-primary-400 py-2 text-center text-xl transition-colors duration-300 hover:bg-primary-700 focus:bg-primary-700">
+      <Link
+        to={`/heros/${hero.key}`}
+        params={{
+          id: hero.key,
+        }}
+        className="block rounded-md bg-primary-400 py-2 text-center text-xl transition-colors duration-300 hover:bg-primary-700 focus:bg-primary-700"
+      >
         See more
       </Link>
     </li>
