@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="w-full bg-gradient-to-r from-slate-300/65 via-slate-300/90 to-slate-200/35 py-2">
+    <footer className="mt-8 w-full bg-gradient-to-r from-slate-300/65 via-slate-300/90 to-slate-200/35 py-2">
       <p className="text-center text-slate-700">
         Created by:{" "}
         <a

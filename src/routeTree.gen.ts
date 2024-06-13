@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersNameImport } from './routes/users/$name'
 import { Route as HerosIdImport } from './routes/heros/$id'
 
 // Create Virtual Routes
@@ -31,6 +32,11 @@ const HerosIndexLazyRoute = HerosIndexLazyImport.update({
   path: '/heros/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/heros/index.lazy').then((d) => d.Route))
+
+const UsersNameRoute = UsersNameImport.update({
+  path: '/users/$name',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const HerosIdRoute = HerosIdImport.update({
   path: '/heros/$id',
@@ -55,6 +61,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HerosIdImport
       parentRoute: typeof rootRoute
     }
+    '/users/$name': {
+      id: '/users/$name'
+      path: '/users/$name'
+      fullPath: '/users/$name'
+      preLoaderRoute: typeof UsersNameImport
+      parentRoute: typeof rootRoute
+    }
     '/heros/': {
       id: '/heros/'
       path: '/heros'
@@ -70,6 +83,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   HerosIdRoute,
+  UsersNameRoute,
   HerosIndexLazyRoute,
 })
 
@@ -83,6 +97,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/heros/$id",
+        "/users/$name",
         "/heros/"
       ]
     },
@@ -91,6 +106,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/heros/$id": {
       "filePath": "heros/$id.tsx"
+    },
+    "/users/$name": {
+      "filePath": "users/$name.tsx"
     },
     "/heros/": {
       "filePath": "heros/index.lazy.tsx"

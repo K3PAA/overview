@@ -1,25 +1,27 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-
-import axios from "axios";
-import { useEffect } from "react";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
 });
 
+type FormValues = {
+  userdata: string;
+};
+
 function Index() {
-  useEffect(() => {
-    const getPlayerData = async () => {
-      const player_id = "TeKrop-2217";
-      const response = await axios.get(
-        `https://overfast-api.tekrop.fr/players/${player_id}/summary`,
-      );
+  const navigate = useNavigate();
+  const { register, control, handleSubmit, formState } = useForm<FormValues>({
+    defaultValues: {
+      userdata: "",
+    },
+  });
 
-      console.log(response.data);
-    };
+  const onSubmit = (data: FormValues) => {
+    navigate({ to: `/users/${data.userdata}` });
+  };
 
-    getPlayerData();
-  }, []);
   return (
     <main className="container mx-auto px-2">
       <img
@@ -45,23 +47,44 @@ function Index() {
         </h1>
 
         <div className="mx-auto mt-4 w-full max-w-2xl">
-          <label htmlFor="" className="text-xl text-white/80">
-            Enter your name and hash
-          </label>
-          <div className="flex">
-            <input
-              type="text"
-              className="w-full rounded p-4 text-slate-800"
-              placeholder="Example-2217"
-            />
-            <button className="btn border-0 bg-primary-400 px-8 uppercase hover:bg-primary-700">
-              search
-            </button>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="" noValidate>
+            <label
+              htmlFor="userdata"
+              className={`${formState.errors.userdata ? "text-red-500" : "text-slate-700"} rounded bg-white p-2 text-xl font-bold`}
+            >
+              {formState.errors.userdata
+                ? formState.errors.userdata.message
+                : "Enter your name and hash"}
+            </label>
+            <div className="mt-4 flex">
+              <input
+                type="text"
+                id="userdata"
+                className="w-full rounded p-4 text-slate-800"
+                placeholder="Example-2217"
+                {...register("userdata", {
+                  required: {
+                    value: true,
+                    message: "Username is required",
+                  },
+                  pattern: {
+                    value: /^[A-Za-z]+-[0-9]+$/,
+                    message: "Required Pattern: Username-1234",
+                  },
+                })}
+              />
+              <button className="btn border-0 bg-primary-400 px-8 uppercase hover:bg-primary-700">
+                search
+              </button>
+            </div>
+          </form>
+          <DevTool control={control} />
         </div>
 
         <section className="mx-auto mt-14 w-full max-w-2xl">
-          <h2 className="text-3xl">Last Checks</h2>
+          <h2 className="w-fit rounded bg-white p-2 text-3xl font-bold text-slate-700">
+            Last Checks
+          </h2>
         </section>
       </section>
     </main>
