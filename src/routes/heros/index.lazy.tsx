@@ -32,7 +32,7 @@ function Heros() {
         />
       </div>
 
-      <ul className="my-4 grid grid-cols-3 gap-4">
+      <ul className="my-4 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
         {heros.data
           .filter((hero) =>
             hero.name.toLowerCase().startsWith(query.toLowerCase()),

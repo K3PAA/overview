@@ -52,6 +52,13 @@ function Hero() {
           </div>
         </div>
       </div>
+      <Link
+        to="/"
+        className="mt-8 flex w-fit items-center rounded-md bg-primary-400 px-8 py-2 text-2xl"
+      >
+        <IoArrowBack />
+        Back{" "}
+      </Link>
     </section>
   );
 }
